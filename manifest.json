@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "version": "1.0.0",
+
+  "name": "Instagram Yoyo",
+  "description": "A browser extension that downloads pictures and videos from Instgram for Chrome users.",
+
+  "web_accessible_resources": ["download.png", "downloader.js"],
+
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+             "128": "icon128.png" },
+
+  "content_scripts": [{
+    "matches": ["https://www.instagram.com/*"],
+    "js": ["instayoyo.js"],
+    "css": ["instayoyo.css"],
+    "run_at": "document_end"
+  }],
+
+  "page_action":{
+    "default_title":"Insta Yoyo"
+  },
+
+  "permissions": [
+    "https://www.instagram.com/*"
+  ],
+
+  "homepage_url": "http://instayoyo.com"
+}

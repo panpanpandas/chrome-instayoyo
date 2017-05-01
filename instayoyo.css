@@ -1,0 +1,14 @@
+.button_wrapper {
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 24px; 
+  height: 24px;
+}
+
+.profile_button_wrapper {
+	width: 30px; 
+	height: 30px; 
+	margin: auto; 
+	cursor: pointer;
+}
