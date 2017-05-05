@@ -52,7 +52,7 @@ downloader.addButtonInHome = function() {
 downloader.addButtonInProfile = function() {
 	var article = document.querySelector('article');
 
-	var grid = article.childNodes[3].childNodes[0];
+	var grid = article.childNodes[1].childNodes[0];
 	// loop each row
 	for (i = 0; i < grid.childNodes.length; i++) {
 		var row = grid.childNodes[i];

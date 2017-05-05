@@ -9,6 +9,7 @@
 .profile_button_wrapper {
 	width: 30px; 
 	height: 30px; 
+  	padding: 8px;
 	margin: auto; 
 	cursor: pointer;
 }
