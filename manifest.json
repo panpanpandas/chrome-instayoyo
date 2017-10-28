@@ -1,6 +1,6 @@
 {
-  "manifest_version": 2,
-  "version": "1.0",
+  "manifest_version": 3,
+  "version": "3.0",
 
   "name": "InstaYoyo - Instagram Downloader",
   "short_name": "InstaYoyo",
@@ -19,8 +19,9 @@
     "run_at": "document_end"
   }],
 
-  "page_action":{
-    "default_title":"Insta Yoyo"
+  "browser_action":{
+    "default_title":"Insta Yoyo",
+    "default_icon": "icon16.png"
   },
 
   "permissions": [

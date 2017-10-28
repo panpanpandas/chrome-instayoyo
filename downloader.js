@@ -1,7 +1,8 @@
 var downloader = downloader || {};
 var BUTTON_CSS = 'button_wrapper';
 var BUTTON_PROFILE_CSS = 'profile_button_wrapper';
-var IMG_SELECTOR = 'img[id^="pImage_"]';
+var IMG_SELECTOR = 'img';
+var profileRows = 0;
 
 downloader.setAnalytics = function() {
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -31,14 +32,19 @@ downloader.addButtonInHome = function() {
 
 	for (i = 0; i < articles.length; i++) {
 		var article = articles[i];
-		var target = article.querySelector(IMG_SELECTOR) || article.querySelector('video');
+		var body = article.childNodes[1];
+		var target = body.querySelector(IMG_SELECTOR) || body.querySelector('video'); // skip header
+		if (!target) { // error handling
+			continue;
+		}
+
 		var existed = article.querySelector('.' + BUTTON_CSS);
 		if (existed) {
-			if (!target || existed.href == target.src) { // already added and src is the same
-				continue;
-			} else {
+			if (existed.href != target.src) {
 				existed.href = target.src; // src needs to be updated
 			}
+
+			continue;
 		} 
 
 		var buttonDiv = article.childNodes[2].childNodes[0];
@@ -53,6 +59,12 @@ downloader.addButtonInProfile = function() {
 	var article = document.querySelector('article');
 
 	var grid = article.childNodes[1].childNodes[0];
+	if (profileRows >= grid.childNodes.length) {
+		return;
+	}
+
+	profileRows = grid.childNodes.length;
+
 	// loop each row
 	for (i = 0; i < grid.childNodes.length; i++) {
 		var row = grid.childNodes[i];
@@ -60,14 +72,22 @@ downloader.addButtonInProfile = function() {
 		// deal with each item
 		for(j = 0; j < row.childNodes.length; j++) {
 			var item = row.childNodes[j];
+			if(!item) {
+				continue;
+			}
+
 			var target = item.querySelector(IMG_SELECTOR);
+			if (!target) { // error handling
+				continue;
+			}
+
 			var existed = item.querySelector('.' + BUTTON_PROFILE_CSS);
 			if (existed) {
-				if (!target || existed.href == target.src) {
-					continue;					
-				} else {
-					existed.href = img.src;
+				if (existed.href != target.src) {
+					existed.href = target.src;
 				}
+
+				continue;
 			}
 
 			var newDiv = document.createElement('div'); 
@@ -86,8 +106,9 @@ downloader.addButtons = function() {
 	var pathname = document.location.pathname.split('/').filter(Boolean);
 	if (pathname.length == 1) { // profile page like https://www.instagram.com/nasa/
 		downloader.addButtonInProfile();
-	} else {
+	} else if (pathname.length == 0) {
 		downloader.addButtonInHome();
+		profileRows = 0;
 	}	
 };
 
@@ -98,7 +119,7 @@ downloader.listenToChanges = function() {
 	        downloader.addButtons();
 	    });
 	});	 
-	var config = {subtree: true, childList: true, attributes: true}
+	var config = {subtree: true, childList: false, attributes: true}
 	 
 	observer.observe(target, config);	
 };
